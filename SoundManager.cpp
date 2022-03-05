@@ -115,7 +115,7 @@ void SoundManager::stop(string sound)
 
 void SoundManager::destroyChunks()
 {
-    Mix_FreeChunk(Background_Music);
-    Background_Music = NULL;
+    /*Mix_FreeChunk(Background_Music);
+    Background_Music = NULL;*/
 
 }
