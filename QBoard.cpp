@@ -93,12 +93,10 @@ void QBoard::generateQuestion()
 	case 3:
 		if (world.m_gameManager.m_availableOperators.divide) 
 		{
-			int a = rand() % 100 + 1;
-			int b = rand() % 100 + 1;
-			if (a % b == 0) {
-				m_qa.answer = to_string(a / b);
-				m_qa.question = to_string(a) + " : " + to_string(b) + " = ";
-			}
+			int a = rand() % 9 + 1;
+			int b = rand() % 9 + 1;
+			m_qa.answer = to_string(a * b / b);
+			m_qa.question = to_string(a * b) + " : " + to_string(b) + " = ";
 		}
 		break;
 	}
@@ -133,7 +131,8 @@ void QBoard::answerQuestion()
 			timerErr = time(NULL); 
 			world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Wrong_Answer_str);
 			gotTheQuestionRight = false;
-			input = " ";
+			world.m_gameManager.m_inputManager.stopTextInput();
+			world.m_gameManager.m_inputManager.resetText();
 
 
 		}

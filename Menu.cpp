@@ -186,10 +186,13 @@ void Menu::update()
         if (choosingGame && MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_startButton.objectRect)) 
         {
             world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
-            if(world.m_gameManager.m_availableOperators.add || world.m_gameManager.m_availableOperators.subtract || 
+            if (world.m_gameManager.m_availableOperators.add || world.m_gameManager.m_availableOperators.subtract ||
                 world.m_gameManager.m_availableOperators.multiply || world.m_gameManager.m_availableOperators.divide)
-            world.m_gameManager.m_gameState = INIT_GAME;
-            choosingGame = false;
+            {
+                world.m_gameManager.m_gameState = INIT_GAME;
+
+                choosingGame = false;
+            }
         }
 
         if (choosingGame && MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_additionButton.objectRect))

@@ -61,7 +61,11 @@ public:
 
     bool m_quitGame = false;
 
-    string m_backgroundImg = " ";
+    string m_backgroundImg;
+
+    string m_creditsImg;
+    SDL_Texture* m_creditsTexture;
+    int alpha_cr = 0;
 
     GameBoard m_gameboard;
 

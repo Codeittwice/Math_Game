@@ -29,12 +29,14 @@ public:
     string Button_Click_str;
     string Wrong_Answer_str;
     string Right_Answer_str;
+    string Credits_str;
 
     Mix_Chunk* Background_Music;
     Mix_Chunk* Menu_Music;
     Mix_Chunk* Button_Click;
     Mix_Chunk* Wrong_Answer;
     Mix_Chunk* Right_Answer;
+    Mix_Chunk* Credits;
 
 protected:
 

@@ -44,12 +44,16 @@ void GameManager::init()
         string tmp;
 
         file >> tmp >> m_backgroundImg;
+        file >> tmp >> m_creditsImg;
 
         file.close();
     }
 
 
     m_backgroundTexture = LoadTexture(m_backgroundImg, m_renderer);
+    m_creditsTexture = LoadTexture(m_creditsImg, m_renderer);
+
+    SDL_SetTextureAlphaMod(m_creditsTexture, alpha_cr);
 
     m_configManager.init("configManager.txt");
     m_soundManager.init("soundManager.txt");
@@ -60,7 +64,7 @@ void GameManager::init()
 
     m_menu.load("menu.txt");
     m_endgame.init("endgame.txt");
-    m_gameState = MENU;
+    m_gameState = CREDITS;
     
 }
 
@@ -81,6 +85,21 @@ void GameManager::initSession()
 
 void GameManager::update()
 {
+    if (m_gameState == CREDITS)
+    {
+        if (alpha_cr == 0) m_soundManager.play(m_soundManager.Credits_str);
+
+        if (alpha_cr <= 255)
+        {
+            alpha_cr++;
+            SDL_SetTextureAlphaMod(m_creditsTexture, alpha_cr);
+        }
+        else
+        {
+            m_soundManager.stop(m_soundManager.Credits_str);
+            m_gameState = MENU;
+        }
+    }
     if (m_gameState == MENU)
     {
         m_menu.update();
@@ -115,11 +134,18 @@ void GameManager::draw()
 {
 
     SDL_RenderClear(m_renderer);
+    if (m_gameState == CREDITS)
+    {
+        SDL_RenderCopy(m_renderer, m_creditsTexture, NULL, NULL);
+    }
     if (m_gameState == MENU)
     {
         m_menu.draw();
     }
-
+    if (m_gameState == INIT_GAME)
+    {
+        SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, NULL);
+    }
     if (m_gameState == GAME)
     {
         SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, NULL);

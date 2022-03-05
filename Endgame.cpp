@@ -38,7 +38,7 @@ void Endgame::update()
             world.m_gameManager.m_gameState = MENU;
         }
     }
-    // EnlargeButtons(world.m_mouseCoordinates,m_proceed_button,m_start_proceed_button);
+    EnlargeButtons(world.m_gameManager.m_inputManager.m_mouseCoor,m_proceed_button,m_start_proceed_button);
 }
 
 void Endgame::draw() 

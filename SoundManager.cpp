@@ -24,6 +24,7 @@ void SoundManager::init(string configFile)
     stream >> tmp >> Right_Answer_str;
     stream >> tmp >> Wrong_Answer_str;
     stream >> tmp >> Menu_Music_str;
+    stream >> tmp >> Credits_str;
 
     stream.close();
 
@@ -37,6 +38,7 @@ void SoundManager::init(string configFile)
     Right_Answer = Mix_LoadWAV(("music\\" + Right_Answer_str).c_str());
     Wrong_Answer = Mix_LoadWAV(("music\\" + Wrong_Answer_str).c_str());
     Menu_Music = Mix_LoadWAV(("music\\" + Menu_Music_str).c_str());
+    Credits = Mix_LoadWAV(("music\\" + Credits_str).c_str());
 }
 
 void SoundManager::play(string sound)
@@ -75,6 +77,11 @@ void SoundManager::play(string sound)
         Mix_PlayChannel(5, Menu_Music, INT_MAX);
         Mix_Volume(5, 20);
     }
+    if (sound == Credits_str)
+    {
+        Mix_PlayChannel(6, Credits, 0);
+        Mix_Volume(6, 100);
+    }
 }
 
 void SoundManager::stop(string sound)
@@ -99,6 +106,10 @@ void SoundManager::stop(string sound)
     if (sound == Menu_Music_str)
     {
         Mix_HaltChannel(5);
+    }
+    if (sound == Menu_Music_str)
+    {
+        Mix_HaltChannel(6);
     }
 }
 
