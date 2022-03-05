@@ -1,0 +1,2 @@
+Img: player1.bmp
+Player: 735 153

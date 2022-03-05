@@ -1,0 +1,2 @@
+Image: MathGame_Tile.bmp
+w-h: 320 80

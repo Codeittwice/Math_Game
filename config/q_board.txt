@@ -1,0 +1,4 @@
+img: QuestionBoard.bmp
+wh: 1900 600
+img: TryAgain.bmp
+wh: 900 300

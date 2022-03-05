@@ -1,0 +1,7 @@
+Rect: 220 20 500 35
+
+Border: health_border.bmp
+
+Img: health_bar1.bmp
+
+Shield: shield.bmp
