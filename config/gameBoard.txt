@@ -1,3 +1,4 @@
 Image: GameBoard.bmp
 w-h: 7680 1080
 maxTiles: 6 
+OverTex: OverGameBoard.bmp

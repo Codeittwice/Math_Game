@@ -23,11 +23,12 @@ public:
 	string m_boardImg;
 	SDL_Rect m_objRect;
 	SDL_Texture* m_objTexture;
+	SDL_Texture* m_overTexture;
 
 	BoardTile* m_currentTile;
 	vector<vector<BoardTile*>> m_tileMap;
 	vector<BoardTile*> newPath;
-	int p = 0;
+	int p;
 	int frameCounter = 0;
 
 	Player* player;

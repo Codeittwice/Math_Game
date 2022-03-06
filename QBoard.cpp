@@ -40,10 +40,8 @@ void QBoard::init(string configFile)
 	m_objTexture = LoadTexture(m_qBoardrImg, world.m_main_renderer);
 	m_tryAgainTexture = LoadTexture(m_tryAgainImg, world.m_main_renderer);
 
-	m_objRect.x = world.m_SCREEN_WIDTH / 2 - m_objRect.w / 2;
+	m_objRect.x = world.m_SCREEN_WIDTH / 2 - m_objRect.w  * 2 / 3;
 	m_objRect.y = - m_objRect.h;// world.m_SCREEN_HEIGHT / 2 - m_objRect.h / 2;
-	//m_objRect.x = 0;
-	//m_objRect.y = 0;
 
 	isAnswered = false;
 	shouldAppear = false;
@@ -124,7 +122,7 @@ void QBoard::answerQuestion()
 			world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Right_Answer_str);
 
 			world.m_gameManager.m_inputManager.stopTextInput();
-			world.m_gameManager.m_inputManager.resetText();
+			//world.m_gameManager.m_inputManager.resetText();
 		}
 		else
 		{
@@ -132,7 +130,7 @@ void QBoard::answerQuestion()
 			world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Wrong_Answer_str);
 			gotTheQuestionRight = false;
 			world.m_gameManager.m_inputManager.stopTextInput();
-			world.m_gameManager.m_inputManager.resetText();
+			//world.m_gameManager.m_inputManager.resetText();
 
 
 		}
@@ -207,7 +205,7 @@ void QBoard::draw()
 		{
 			Vector2 v;
 			v.x = m_objRect.x + m_objRect.w / 2 - 400;
-			v.y = m_objRect.y + m_objRect.h / 2 - 200;
+			v.y = m_objRect.y + m_objRect.h / 2 - 300;
 			int font = 200;
 			write(m_qa.question, v, world.m_main_renderer, font);
 			v.x += 3 * font;
@@ -222,7 +220,7 @@ void QBoard::draw()
 			if (errMsgShouldStay)
 			{
 				m_tryAgainRect.x = m_objRect.x + m_objRect.w / 2 - 400;
-				m_tryAgainRect.y = m_objRect.y + m_objRect.h / 2 - 200;
+				m_tryAgainRect.y = m_objRect.y + m_objRect.h / 2 - 350;
 
 				SDL_RenderCopy(world.m_main_renderer, m_tryAgainTexture, NULL, &m_tryAgainRect);
 				//writeRed("Пробвай пак", v, world.m_main_renderer, font);

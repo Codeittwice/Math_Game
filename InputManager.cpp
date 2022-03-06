@@ -106,7 +106,7 @@ void InputManager::handleInput()
             {
                 m_textInput += m_event.text.text;
             }
-            if (m_event.type == SDL_KEYDOWN && m_event.key.keysym.sym == SDLK_RETURN)
+            if (m_event.type == SDL_KEYDOWN && (m_event.key.keysym.sym == SDLK_RETURN || m_event.key.keysym.sym == SDLK_KP_ENTER))
             {
                 m_EnterIsPressed = true;
             }

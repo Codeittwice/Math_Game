@@ -10,7 +10,7 @@ World world;
 
 int main(int argc, char* argv[])
 {
-    //ShowWindow(GetConsoleWindow(), SW_HIDE);
+    ShowWindow(GetConsoleWindow(), SW_SHOW);
 
     world.init();
 

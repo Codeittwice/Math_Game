@@ -190,7 +190,7 @@ void Menu::update()
                 world.m_gameManager.m_availableOperators.multiply || world.m_gameManager.m_availableOperators.divide)
             {
                 world.m_gameManager.m_gameState = INIT_GAME;
-
+                world.m_gameManager.loadtimer = time(NULL);
                 choosingGame = false;
             }
         }

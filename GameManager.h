@@ -27,6 +27,9 @@ public:
     SDL_Rect m_backgroundRect;
     SDL_Texture* m_backgroundTexture;
 
+    string m_loadingImg;
+    SDL_Texture* m_loadingTexture;
+
     SDL_Texture* m_spaceshipTexture;
     SDL_Texture* m_spaceshipInsideTexture;
     SDL_Rect m_spaceshipRect;
@@ -44,6 +47,7 @@ public:
 
     SDL_Rect m_presentRect;
 
+    time_t loadtimer;
 
     SDL_Event* m_event;
     bool* m_drag;

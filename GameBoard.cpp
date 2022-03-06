@@ -23,13 +23,17 @@ void GameBoard::init(string configFile)
 	stream >> tmp >> m_boardImg;
 	stream >> tmp >> m_objRect.w >> m_objRect.h;
 	stream >> tmp >> m_boardCap;
+	stream >> tmp >> tmp;
 	//m_objRect.w = world.m_SCREEN_WIDTH * 4;
 	//m_objRect.h = world.m_SCREEN_HEIGHT;
 
-
+	p = 0;
 	stream.close();
 	m_objTexture = LoadTexture(m_boardImg, world.m_main_renderer);
+	m_overTexture = LoadTexture(tmp, world.m_main_renderer);
 
+	player = new Player();
+	player->init("player1.txt");
 	
 }
 
@@ -49,7 +53,12 @@ void GameBoard::update()
 		movePlayer();
 	}
 	else {
-		world.m_gameManager.m_gameState = ENDGAME;
+
+		player->moveTo(2000, newPath[newPath.size() - 1]->m_objRect.y - newPath[newPath.size() - 1]->m_objRect.h);
+		if (player->m_objRect.x >= 1920 && player->m_objRect.y >= 540)
+		{
+			world.m_gameManager.m_gameState = ENDGAME;
+		}
 	}
 
 	
@@ -58,18 +67,7 @@ void GameBoard::update()
 
 void GameBoard::draw()
 {
-	/*SDL_Rect presentRect;
-	presentRect.w = m_objRect.w;
-	presentRect.h = m_objRect.h;
-	presentRect.x = frameCounter * presentRect.w;
-	presentRect.y = 0;
-
-	SDL_RenderCopy(world.m_main_renderer, m_objTexture, &presentRect, &m_objRect);
-	if (frameCounter == 3) frameCounter = 0;
-	else
-		frameCounter++;*/
-	SDL_RenderCopy(world.m_main_renderer, m_objTexture, NULL, NULL);
-
+	
 	if (p < newPath.size() - 1) 
 	{
 		for (int i = 0; i < m_boardCap; i++)
@@ -80,7 +78,6 @@ void GameBoard::draw()
 			}
 		}
 
-		player->draw();
 		m_qBoards[p]->draw();
 	}
 	else {
@@ -89,8 +86,13 @@ void GameBoard::draw()
 			newPath[i]->draw();
 		}
 	}
-	
-	
+
+	SDL_RenderCopy(world.m_main_renderer, m_objTexture, NULL, NULL);
+
+	player->draw();
+
+
+	SDL_RenderCopy(world.m_main_renderer, m_overTexture, NULL, NULL);
 }
 
 
@@ -102,8 +104,10 @@ void GameBoard::initSession()
 		for (int j = 0; j < m_boardCap; j++)
 		{
 			BoardTile* tile = new BoardTile();
-			tile->m_objRect.x = 535 + (j * tile->m_objRect.w / 3) * 2 - (i * tile->m_objRect.w / 3);
-			tile->m_objRect.y = 550 + i * tile->m_objRect.h;// -i * tile->m_objRect.h / 7;
+			//tile->m_objRect.x = 535 + (j * tile->m_objRect.w / 3) * 2 - (i * tile->m_objRect.w / 3);
+			//tile->m_objRect.y = 550 + i * tile->m_objRect.h;// -i * tile->m_objRect.h / 7;
+			tile->m_objRect.x = 0 + (j * tile->m_objRect.w / 3) * 2 + (i * tile->m_objRect.w / 3);
+			tile->m_objRect.y = 1080 - tile->m_objRect.h * m_boardCap + i * tile->m_objRect.h;// -i * tile->m_objRect.h / 7;
 			//tile->m_objRect.h += i * 20;
 			tile->map_coor.i = i;
 			tile->map_coor.j = j;
@@ -156,7 +160,7 @@ vector<BoardTile*> GameBoard::createPath()
 	vector<BoardTile*> path;
 	int i = 0, j = 0;
 	srand(time(NULL));
-	while (i < m_boardCap && j < m_boardCap)
+	while (i < m_boardCap - 2 && j < m_boardCap)
 	{
 		path.push_back(m_tileMap[i][j]);
 		QBoard* qb = new QBoard(world.m_gameManager.m_configManager.m_qBoard);
@@ -166,7 +170,7 @@ vector<BoardTile*> GameBoard::createPath()
 		if (r <= 10)
 		{
 			
-			if (i != m_boardCap - 1)
+			if (i != m_boardCap - 3)
 			{
 				i++;
 			}
@@ -236,7 +240,8 @@ void GameBoard::movePlayer()
 					p++;
 				}
 				else {
-					p = 0;
+					//p = 0;
+					player->moveTo(540,1920);
 				}
 				for (int i = 0; i < m_qBoards.size(); i++)
 				{

@@ -45,6 +45,7 @@ void GameManager::init()
 
         file >> tmp >> m_backgroundImg;
         file >> tmp >> m_creditsImg;
+        file >> tmp >> m_loadingImg;
 
         file.close();
     }
@@ -52,6 +53,7 @@ void GameManager::init()
 
     m_backgroundTexture = LoadTexture(m_backgroundImg, m_renderer);
     m_creditsTexture = LoadTexture(m_creditsImg, m_renderer);
+    m_loadingTexture = LoadTexture(m_loadingImg, m_renderer);
 
     SDL_SetTextureAlphaMod(m_creditsTexture, alpha_cr);
 
@@ -106,10 +108,23 @@ void GameManager::update()
     }
     if (m_gameState == INIT_GAME)
     {
-        world.m_gameManager.m_soundManager.stop(world.m_gameManager.m_soundManager.Menu_Music_str);
-        m_gameboard.init("gameboard.txt");
-        m_gameboard.initSession();
-        m_gameState = GAME;
+        if (time(NULL) - loadtimer == 0)
+        {
+            world.m_gameManager.m_soundManager.stop(world.m_gameManager.m_soundManager.Menu_Music_str);
+            m_gameboard.init("gameboard.txt");
+            m_gameboard.initSession();
+
+            m_gameboard.player->m_objRect.x = world.m_SCREEN_HEIGHT / 2 * m_inputManager.m_mouseMultiply.x + m_gameboard.player->m_objRect.w / 2;
+            m_gameboard.player->m_objRect.y = world.m_SCREEN_HEIGHT / 2 * m_inputManager.m_mouseMultiply.y - m_gameboard.player->m_objRect.h / 2;
+        }
+        m_gameboard.player->update();
+
+        if (time(NULL) - loadtimer >= 5) 
+        {
+            m_gameboard.player->setInitialCoordinates(m_gameboard.m_tileMap[0][0]->m_objRect.x, m_gameboard.m_tileMap[0][0]->m_objRect.y);
+
+            m_gameState = GAME;
+        }
     }
     if (m_gameState == GAME)
     {
@@ -144,7 +159,8 @@ void GameManager::draw()
     }
     if (m_gameState == INIT_GAME)
     {
-        SDL_RenderCopy(m_renderer, m_backgroundTexture, NULL, NULL);
+        SDL_RenderCopy(m_renderer, m_loadingTexture, NULL, NULL);
+        m_gameboard.player->draw();
     }
     if (m_gameState == GAME)
     {

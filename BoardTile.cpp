@@ -29,6 +29,9 @@ void BoardTile::init(string configFile)
 	m_tileImg = TILES_FOLDER + m_tileImg;
 	m_objTexture = LoadTexture(m_tileImg, world.m_main_renderer);
 	hasAQBoard = false;
+
+	m_objRect.w -= 20;
+	m_objRect.h -= 20;
 }
 
 void BoardTile::update()
@@ -70,7 +73,7 @@ void BoardTile::draw()
 	}
 	else
 	{*/
-		SDL_RenderCopy(world.m_main_renderer, m_objTexture, NULL, &m_objRect);
+		SDL_RenderCopyEx(world.m_main_renderer, m_objTexture, NULL, &m_objRect, NULL, NULL, SDL_FLIP_VERTICAL);
 	//}
 
 }

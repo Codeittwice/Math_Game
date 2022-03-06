@@ -67,8 +67,8 @@ void Player::draw()
 		presentRect.y = 0;
 
 
-		m_objRect.x += 50;
-		m_objRect.y -= m_objRect.h / 2;
+		m_objRect.x += world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.w / 2;
+		m_objRect.y -= (m_objRect.h + world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.h) / 2;
 
 		SDL_RenderCopy(world.m_main_renderer, m_objTexture, &presentRect, &m_objRect);
 		if (frameCounter == numberOfFrames - 1) frameCounter = 0;
@@ -77,8 +77,8 @@ void Player::draw()
 
 		SDL_Delay(50);
 
-		m_objRect.x -= 50;
-		m_objRect.y += m_objRect.h / 2;
+		m_objRect.x -= world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.w / 2;
+		m_objRect.y += (m_objRect.h + world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.h) / 2;
 	}
 }
 
@@ -89,10 +89,19 @@ void Player::moveTo(int x, int y)
 	{
 		m_objRect.x += 8;
 	}
+	if (x - m_objRect.x < 0)
+	{
+		m_objRect.x -= 8;
+	}
 	if (y - m_objRect.y > 0)
 	{
-		m_objRect.x -= (double)((world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.w * 1/2 )/ world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.h) * 6;
+		m_objRect.x += (double)((world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.w * 1/2 )/ world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.h) * 6;
 		m_objRect.y += 6;
+	}
+	if (y - m_objRect.y < 0)
+	{
+		m_objRect.x -= (double)((world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.w * 1 / 2) / world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.h) * 6;
+		m_objRect.y -= 6;
 	}
 
 }
