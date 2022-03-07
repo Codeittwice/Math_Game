@@ -19,10 +19,21 @@ public:
 	SDL_Rect m_imgRect;
 	SDL_Texture* m_objTexture;
 
+	string m_playerImgIdle;
+	SDL_Texture* m_objTextureIdle;
+
+	string m_playerImgHappy;
+	SDL_Texture* m_objTextureHappy;
+
+	string m_playerImgAngry;
+	SDL_Texture* m_objTextureAngry;
+
 	int numberOfFrames;
 	int frameCounter = 0;
 
 	time_t timer;
+
+	PLAYER_STATE m_state;
 
 	Vector2 m_coor;
 	map_coordinates m_map_coor;

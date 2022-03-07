@@ -26,5 +26,5 @@ int main(int argc, char* argv[])
     world.m_gameManager.deleteSession();
     world.destroy();
 
-    return 0;
+    return EXIT_SUCCESS;
 }

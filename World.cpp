@@ -64,7 +64,8 @@ void World::improveRenderer()
     {
         cout << "SDL_IMPROVE_RENDERER FAILED: %s\n" << SDL_GetError() << endl;
     }
-
+    //m_SCREEN_WIDTH = desktopWidth;
+    //m_SCREEN_HEIGHT = desktopHeight;
     SDL_RenderSetLogicalSize(m_main_renderer, 1920, 1080);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 }
@@ -73,7 +74,7 @@ void World::destroy()
 {
     SDL_DestroyWindow(m_main_window);
     SDL_DestroyRenderer(m_main_renderer);
-    m_soundManager -> destroyChunks();
+    //m_soundManager -> destroyChunks();
 }
 
 void World::input()

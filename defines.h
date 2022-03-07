@@ -43,6 +43,15 @@ enum GAME_STATE
     INIT_GAME = 8
 }; ///< Game state enumerator defining game states to use
 
+enum PLAYER_STATE
+{
+    NOSTATE = 0,
+    IDLE = 1,
+    MOVING = 2,
+    HAPPY = 3,
+    ANGRY = 4
+};
+
 static string ENEMY_FOLDER = "enemy\\";
 static string PLAYER_FOLDER = "player\\";
 static string UI_FOLDER = "UI\\";

@@ -2,6 +2,7 @@
 
 #include "Engine.h"
 
+#include <vector>
 class Endgame
 {
     public:
@@ -9,11 +10,13 @@ class Endgame
         Endgame();
         virtual ~Endgame();
 
-        string m_winImage;
-        string m_lossImage;
+        int frameCount;
+        int frameCounter;
+
+        vector<string> m_images;
         string m_poceedImage;
 
-        SDL_Texture* m_win_texture;
+        vector<SDL_Texture*> m_textures;
         SDL_Texture* m_proceed_texture;
 
         SDL_Rect m_win_rect;

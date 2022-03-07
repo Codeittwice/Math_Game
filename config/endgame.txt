@@ -1,3 +1,21 @@
-win_image: win_screen.bmp
-loss_image: EndGame_Screen.bmp
-button_w_h: Proceed_Button.bmp 350 350
+frameCount: 19
+EndGame_0000.bmp
+EndGame_0001.bmp
+EndGame_0002.bmp
+EndGame_0003.bmp
+EndGame_0004.bmp
+EndGame_0005.bmp
+EndGame_0006.bmp
+EndGame_0007.bmp
+EndGame_0008.bmp
+EndGame_0009.bmp
+EndGame_0010.bmp
+EndGame_0011.bmp
+EndGame_0012.bmp
+EndGame_0013.bmp
+EndGame_0014.bmp
+EndGame_0015.bmp
+EndGame_0016.bmp
+EndGame_0017.bmp
+EndGame_0018.bmp
+button_w_h: Proceed_Button.bmp 420 120

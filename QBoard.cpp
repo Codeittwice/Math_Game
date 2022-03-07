@@ -119,8 +119,19 @@ void QBoard::answerQuestion()
 			gotTheQuestionRight = true;
 			shouldDisappear = true;
 			isAnswered = true;
-			world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Right_Answer_str);
-
+			switch (rand() % 3)
+			{
+			case 0:
+				world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Right_Answer_str);
+				break;
+			case 1:
+				world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Right_Answer2_str);
+				break;
+			case 2:
+				world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Right_Answer3_str);
+				break;
+			}
+			world.m_gameManager.m_gameboard.player->m_state = HAPPY;
 			world.m_gameManager.m_inputManager.stopTextInput();
 			//world.m_gameManager.m_inputManager.resetText();
 		}
@@ -130,6 +141,7 @@ void QBoard::answerQuestion()
 			world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Wrong_Answer_str);
 			gotTheQuestionRight = false;
 			world.m_gameManager.m_inputManager.stopTextInput();
+			world.m_gameManager.m_gameboard.player->m_state = ANGRY;
 			//world.m_gameManager.m_inputManager.resetText();
 
 
@@ -149,6 +161,7 @@ void QBoard::update()
 			
 		}
 		input = world.m_gameManager.m_inputManager.getTextInput();
+
 		answerQuestion();
 		//D("UPDATE");
 		if (shouldAppear)
@@ -196,6 +209,7 @@ void QBoard::draw()
 			errMsgShouldStay = true;
 		}else{
 			errMsgShouldStay = false;
+
 			gotTheQuestionRight = true;
 		}
 

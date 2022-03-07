@@ -3,8 +3,8 @@ StartImage: Choose_Game_Button.bmp
 StartX: 140
 StartY: 40
 ExitImage: Exit_Button.bmp
-ExitX: 140
-ExitY: 40
+ExitX: 70
+ExitY: 20
 LogoImage: Mars_Menu_Logo.bmp
 LogoW: 250
 LogoH: 125

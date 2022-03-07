@@ -55,8 +55,11 @@ void GameBoard::update()
 	else {
 
 		player->moveTo(2000, newPath[newPath.size() - 1]->m_objRect.y - newPath[newPath.size() - 1]->m_objRect.h);
+		player->m_state = MOVING;
 		if (player->m_objRect.x >= 1920 && player->m_objRect.y >= 540)
 		{
+			world.m_gameManager.m_soundManager.stop(world.m_gameManager.m_soundManager.Background_Music_str);
+
 			world.m_gameManager.m_gameState = ENDGAME;
 		}
 	}
@@ -104,11 +107,11 @@ void GameBoard::initSession()
 		for (int j = 0; j < m_boardCap; j++)
 		{
 			BoardTile* tile = new BoardTile();
-			//tile->m_objRect.x = 535 + (j * tile->m_objRect.w / 3) * 2 - (i * tile->m_objRect.w / 3);
-			//tile->m_objRect.y = 550 + i * tile->m_objRect.h;// -i * tile->m_objRect.h / 7;
+
 			tile->m_objRect.x = 0 + (j * tile->m_objRect.w / 3) * 2 + (i * tile->m_objRect.w / 3);
-			tile->m_objRect.y = 1080 - tile->m_objRect.h * m_boardCap + i * tile->m_objRect.h;// -i * tile->m_objRect.h / 7;
-			//tile->m_objRect.h += i * 20;
+			tile->m_objRect.y = 1080 - tile->m_objRect.h * m_boardCap + i * tile->m_objRect.h;
+
+
 			tile->map_coor.i = i;
 			tile->map_coor.j = j;
 
@@ -141,7 +144,6 @@ void GameBoard::initSession()
 	m_qBoards[0]->shouldAppear = true;
 	addPlayer();
 	
-	world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Background_Music_str);
 	
 }
 
@@ -150,7 +152,6 @@ void GameBoard::deleteSession()
 	newPath.clear();
 	m_qBoards.clear();
 	m_tileMap.clear();
-	player->~Player();
 	p = 0;
 
 }
@@ -256,11 +257,15 @@ void GameBoard::movePlayer()
 				if (newPath[p]->m_myQBoard != NULL) newPath[p]->m_myQBoard->isAnswered = false;
 
 				newPath[p]->highlight();
+
+				player->m_state = IDLE;
 			}
 			else
 			{
 				player->moveTo(newPath[p + 1]->m_objRect.x, newPath[p + 1]->m_objRect.y);
+				player->m_state = MOVING;
 			}
+
 		}
 		//m_qBoards[p]->shouldDisappear = true;
 

@@ -77,8 +77,8 @@ void Menu::load(string config)
     m_startRect.x = (1920 - m_startRect.w) / 2;
     m_startRect.y = 650;
 
-    m_exitRect.x = (1920 - m_startRect.w) / 2;
-    m_exitRect.y = 800;
+    m_exitRect.x = (1920 - m_exitRect.w) / 2;
+    m_exitRect.y = 1000;
 
     m_logoRect.x = (1920 - m_logoRect.w) / 2 + 20;
     m_logoRect.y = 0;
@@ -150,10 +150,10 @@ void Menu::load(string config)
     world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Menu_Music_str);
 
 
-    SDL_SetTextureColorMod(m_additionButton.objTexture, 50, 50, 50);
-    SDL_SetTextureColorMod(m_subtractionButton.objTexture, 50, 50, 50);
-    SDL_SetTextureColorMod(m_multiplicationButton.objTexture, 50, 50, 50);
-    SDL_SetTextureColorMod(m_divisionButton.objTexture, 50, 50, 50);
+    SDL_SetTextureColorMod(m_additionButton.objTexture, 100, 100, 100);
+    SDL_SetTextureColorMod(m_subtractionButton.objTexture, 100, 100, 100);
+    SDL_SetTextureColorMod(m_multiplicationButton.objTexture, 100, 100, 100);
+    SDL_SetTextureColorMod(m_divisionButton.objTexture, 100, 100, 100);
 
 
 
@@ -165,6 +165,7 @@ void Menu::update()
     ///Check if the mouse is pressed and then if it is on(inside) the buttons and perform their assigned actions
     world.m_gameManager.m_inputManager.handleInput();
     timeSinceLastClick = time(NULL) - lastClick;
+
     if (timeSinceLastClick >= 1 && world.m_gameManager.m_inputManager.m_mouseIsClicked) 
     {
         lastClick = time(NULL);
@@ -206,7 +207,7 @@ void Menu::update()
             }
             else {
                 world.m_gameManager.m_availableOperators.add = false;
-                SDL_SetTextureColorMod(m_additionButton.objTexture, 50, 50, 50);
+                SDL_SetTextureColorMod(m_additionButton.objTexture, 100, 100, 100);
             }
 
         }
@@ -221,7 +222,7 @@ void Menu::update()
             }
             else {
                 world.m_gameManager.m_availableOperators.subtract = false;
-                SDL_SetTextureColorMod(m_subtractionButton.objTexture, 50, 50, 50);
+                SDL_SetTextureColorMod(m_subtractionButton.objTexture, 100, 100, 100);
             }
         }
         if (choosingGame && MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_multiplicationButton.objectRect))
@@ -235,7 +236,7 @@ void Menu::update()
             }
             else {
                 world.m_gameManager.m_availableOperators.multiply = false;
-                SDL_SetTextureColorMod(m_multiplicationButton.objTexture, 50, 50, 50);
+                SDL_SetTextureColorMod(m_multiplicationButton.objTexture, 100, 100, 100);
             }
         }
         if (choosingGame && MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_divisionButton.objectRect))
@@ -249,7 +250,7 @@ void Menu::update()
             }
             else {
                 world.m_gameManager.m_availableOperators.divide = false;
-                SDL_SetTextureColorMod(m_divisionButton.objTexture, 50, 50, 50);
+                SDL_SetTextureColorMod(m_divisionButton.objTexture, 100, 100, 100);
             }
         }
     }

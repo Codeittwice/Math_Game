@@ -66,7 +66,7 @@ void GameManager::init()
 
     m_menu.load("menu.txt");
     m_endgame.init("endgame.txt");
-    m_gameState = CREDITS;
+    m_gameState = MENU;
     
 }
 
@@ -114,14 +114,16 @@ void GameManager::update()
             m_gameboard.init("gameboard.txt");
             m_gameboard.initSession();
 
-            m_gameboard.player->m_objRect.x = world.m_SCREEN_HEIGHT / 2 * m_inputManager.m_mouseMultiply.x + m_gameboard.player->m_objRect.w / 2;
-            m_gameboard.player->m_objRect.y = world.m_SCREEN_HEIGHT / 2 * m_inputManager.m_mouseMultiply.y - m_gameboard.player->m_objRect.h / 2;
+            m_gameboard.player->m_objRect.x = world.m_SCREEN_WIDTH / 2 - m_gameboard.player->m_objRect.w / 2;
+            m_gameboard.player->m_objRect.y = world.m_SCREEN_HEIGHT / 2 - m_gameboard.player->m_objRect.h / 2;
+
         }
         m_gameboard.player->update();
 
         if (time(NULL) - loadtimer >= 5) 
         {
             m_gameboard.player->setInitialCoordinates(m_gameboard.m_tileMap[0][0]->m_objRect.x, m_gameboard.m_tileMap[0][0]->m_objRect.y);
+            world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Background_Music_str);
 
             m_gameState = GAME;
         }

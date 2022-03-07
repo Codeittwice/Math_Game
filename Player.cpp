@@ -19,7 +19,14 @@ void Player::init(string configFile)
 	stream.open(configFile);
 
 	stream >> tmp >> m_playerImg;
+	stream >> tmp >> m_playerImgIdle;
+	stream >> tmp >> m_playerImgHappy;
+	stream >> tmp >> m_playerImgAngry;
 	stream >> tmp >> m_objRect.w >> m_objRect.h;
+
+	D(m_playerImgIdle);
+	D(m_playerImgHappy);
+	D(m_playerImgAngry);
 
 	stream.close();
 	numberOfFrames = 7;
@@ -29,8 +36,16 @@ void Player::init(string configFile)
 
 
 	m_playerImg = PLAYER_FOLDER + m_playerImg;
+	m_playerImgIdle = PLAYER_FOLDER + m_playerImgIdle;
+	m_playerImgHappy = PLAYER_FOLDER + m_playerImgHappy;
+	m_playerImgAngry = PLAYER_FOLDER + m_playerImgAngry;
 	m_objTexture = LoadTexture(m_playerImg, world.m_main_renderer);
+	m_objTextureIdle = LoadTexture(m_playerImgIdle, world.m_main_renderer);
+	m_objTextureHappy = LoadTexture(m_playerImgHappy, world.m_main_renderer);
+	m_objTextureAngry = LoadTexture(m_playerImgAngry, world.m_main_renderer);
 	timer = time(NULL);
+
+	m_state = IDLE;
 
 }
 
@@ -66,19 +81,41 @@ void Player::draw()
 		presentRect.x = frameCounter * presentRect.w;
 		presentRect.y = 0;
 
+		if (world.m_gameManager.m_gameState == GAME)
+		{
+			m_objRect.x += world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.w / 2;
+			m_objRect.y -= (m_objRect.h + world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.h) / 2;
+		}
+		switch (m_state)
+		{
+		case 1:
+			SDL_RenderCopy(world.m_main_renderer, m_objTextureIdle, &presentRect, &m_objRect);
+			break;
 
-		m_objRect.x += world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.w / 2;
-		m_objRect.y -= (m_objRect.h + world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.h) / 2;
+		case 2:
+			SDL_RenderCopy(world.m_main_renderer, m_objTexture, &presentRect, &m_objRect);
+			break;
 
-		SDL_RenderCopy(world.m_main_renderer, m_objTexture, &presentRect, &m_objRect);
+		case 3:
+			SDL_RenderCopy(world.m_main_renderer, m_objTextureHappy, &presentRect, &m_objRect);
+			break;
+
+		case 4:
+			SDL_RenderCopy(world.m_main_renderer, m_objTextureAngry, &presentRect, &m_objRect);
+			break;
+		}
+
+
 		if (frameCounter == numberOfFrames - 1) frameCounter = 0;
 		else
 			frameCounter++;
 
 		SDL_Delay(50);
-
-		m_objRect.x -= world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.w / 2;
-		m_objRect.y += (m_objRect.h + world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.h) / 2;
+		if (world.m_gameManager.m_gameState == GAME)
+		{
+			m_objRect.x -= world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.w / 2;
+			m_objRect.y += (m_objRect.h + world.m_gameManager.m_gameboard.m_tileMap[0][0]->m_objRect.h) / 2;
+		}
 	}
 }
 
