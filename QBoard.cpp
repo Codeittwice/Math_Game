@@ -247,11 +247,11 @@ void QBoard::draw()
 
 void QBoard::appear()
 {
-	m_objRect.y += 20;
+	m_objRect.y += 30;
 }
 
 void QBoard::disappear()
 {
 	
-	m_objRect.y -= 20;
+	m_objRect.y -= 30;
 }
