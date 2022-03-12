@@ -99,8 +99,8 @@ void Menu::load(string config)
     ///------------BACK BUTTON-------------------///
     m_backButton.objectRect.w *= m_sizeMultiplier;
     m_backButton.objectRect.h *= m_sizeMultiplier;
-    m_backButton.objectRect.x = m_exitRect.w + 20;
-    m_backButton.objectRect.y = 5;
+    m_backButton.objectRect.x = 5;
+    m_backButton.objectRect.y = m_exitRect.h + 20;
     m_backButton.startRect = m_backButton.objectRect;
 
     m_sizeMultiplier = 2.0;
@@ -146,9 +146,9 @@ void Menu::load(string config)
     
 
     ///------------FRAMER-------------------///
-    m_framerButton.objectRect.w = 2*m_startButton.objectRect.w;
+    m_framerButton.objectRect.w = m_startButton.objectRect.w;
     m_framerButton.objectRect.h = m_startButton.objectRect.y - m_additionButton.objectRect.y - 100;
-    m_framerButton.objectRect.x = m_additionButton.objectRect.x - (2*m_startButton.objectRect.w - m_divisionButton.objectRect.w) / 2;
+    m_framerButton.objectRect.x = m_additionButton.objectRect.x - (m_startButton.objectRect.w - m_divisionButton.objectRect.w) / 2;
     m_framerButton.objectRect.y = m_additionButton.objectRect.y - 40;
     m_framerButton.startRect = m_framerButton.objectRect;
 
@@ -199,13 +199,15 @@ void Menu::update()
     if (timeSinceLastClick >= 1 && world.m_gameManager.m_inputManager.m_mouseIsClicked) 
     {
         lastClick = time(NULL);
+
+        if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_exitRect)) {
+            world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
+
+            world.m_gameManager.m_gameState = EXIT;
+        }
         if (!choosingGame)
         {
-            if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_exitRect)) {
-                world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
-
-                world.m_gameManager.m_gameState = EXIT;
-            }
+            
 
             if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_startRect)) {
                 world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
@@ -325,12 +327,9 @@ void Menu::update()
 
 void Menu::draw()
 {
-    ///Copiing the textures and handing them to the renderer a.k.a. drawing them on our window
-    //SDL_RenderClear(world.m_main_renderer);
-
+    
     SDL_RenderCopy(world.m_main_renderer, m_objectTexture, NULL, NULL);
     SDL_RenderCopy(world.m_main_renderer, m_exitTexture, NULL, &m_exitRect);
-    SDL_RenderCopy(world.m_main_renderer, m_backButton.objTexture, NULL, &m_backButton.objectRect);
 
     if (!choosingGame)
     {
@@ -339,6 +338,8 @@ void Menu::draw()
     }
     else
     {
+
+        SDL_RenderCopy(world.m_main_renderer, m_backButton.objTexture, NULL, &m_backButton.objectRect);
 
         SDL_RenderCopy(world.m_main_renderer, m_framerButton.objTexture, NULL, &m_framerButton.objectRect);
 
@@ -354,7 +355,6 @@ void Menu::draw()
         if (checkM)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_multiplicationButton.objectRect);
         if (checkD)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_divisionButton.objectRect);
     }
-    //SDL_RenderPresent(world.m_main_renderer);
 
 }
 

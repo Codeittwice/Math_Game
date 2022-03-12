@@ -119,29 +119,14 @@ void GameBoard::initSession()
 		}
 		m_tileMap.push_back(row);
 	}
-	m_objRect.w = 6 * m_tileMap[0][0]->m_objRect.w + 200;
-	m_objRect.h = m_objRect.w * 10 / 28 + 200;
-	m_objRect.x = m_tileMap[0][0]->m_objRect.x - m_objRect.w / 3 + 50;
-	m_objRect.y = m_tileMap[0][0]->m_objRect.y - 20;
+
 
 	newPath = createPath();
-	m_currentTile = newPath[0];
-	m_qBoards[0]->isActive = true;
+	m_currentTile = newPath[p];
+	m_qBoards[p]->isActive = true;
 
-	for (int p = 0; p < newPath.size(); p++)
-	{
-		for (int i = 0; i < m_boardCap; i++)
-		{
-			for (int j = 0; j < m_boardCap; j++)
-			{
-				if (newPath[p]->map_coor.i == i && newPath[p]->map_coor.j == j)
-				{
-					//m_tileMap[i][j]->highlight();
-				}
-			}
-		}
-	}
-	m_qBoards[0]->shouldAppear = true;
+
+	m_qBoards[p]->shouldAppear = true;
 	addPlayer();
 	
 	
@@ -161,12 +146,15 @@ vector<BoardTile*> GameBoard::createPath()
 	vector<BoardTile*> path;
 	int i = 0, j = 0;
 	srand(time(NULL));
+
+	/*path.push_back(m_tileMap[0][0]);
+	QBoard* qb = new QBoard(world.m_gameManager.m_configManager.m_qBoard);
+	qb->generateQuestion();
+	m_qBoards.push_back(qb);*/
+
 	while (i < m_boardCap - 2 && j < m_boardCap)
 	{
-		path.push_back(m_tileMap[i][j]);
-		QBoard* qb = new QBoard(world.m_gameManager.m_configManager.m_qBoard);
-		qb->generateQuestion();
-		m_qBoards.push_back(qb);
+		
 		/*switch (rand() % 4)
 		{
 		case 0:
@@ -195,9 +183,13 @@ vector<BoardTile*> GameBoard::createPath()
 			}
 		}*/
 		
-		int r = rand() % 4;
-		
-		if (r <= 10)
+		int r = rand() % 2;
+
+		path.push_back(m_tileMap[i][j]);
+		QBoard* qb = new QBoard(world.m_gameManager.m_configManager.m_qBoard);
+		qb->generateQuestion();
+		m_qBoards.push_back(qb);
+		if (r == 0)
 		{
 			
 			if (i != m_boardCap - 3)
@@ -218,7 +210,28 @@ vector<BoardTile*> GameBoard::createPath()
 				i++;
 			}
 		}
-
+		/*
+			int r = rand() % 2;
+			switch (r)
+			{
+			case 0:
+				if (i + 1 < m_boardCap - 3)
+				{
+					i++;
+				}
+				break;
+			case 1:
+				if (j + 1 < m_boardCap - 1)
+				{
+					j++;
+				}
+				break;
+			}
+			path.push_back(m_tileMap[i][j]);
+			QBoard* qb = new QBoard(world.m_gameManager.m_configManager.m_qBoard);
+			qb->generateQuestion();
+			m_qBoards.push_back(qb); 
+		*/
 	}
 	/*if (path.size() != 10)
 	{
@@ -232,7 +245,8 @@ vector<BoardTile*> GameBoard::createPath()
 		D(m_qBoards[i]->m_qa.question);
 	}*/
 
-
+	D(path.size());
+	D(m_qBoards.size());
 	return path;
 
 

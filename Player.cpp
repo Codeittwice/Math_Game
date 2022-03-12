@@ -128,17 +128,16 @@ void Player::moveTo(int x, int y)
 	}
 	if (x - m_objRect.x < 0)
 	{
-		m_objRect.x -= 8;
+		m_objRect.x -= 1;
 	}
 	if (y - m_objRect.y > 0)
 	{
-		m_objRect.x += (double)((world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.w * 1/2 )/ world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.h) * 6;
-		m_objRect.y += 6;
+		//m_objRect.x += (double)((world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.w * 1/2 )/ world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.h) * 6;
+		m_objRect.y += 8;
 	}
 	if (y - m_objRect.y < 0)
 	{
-		m_objRect.x -= (double)((world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.w * 1 / 2) / world.m_gameManager.m_gameboard.m_qBoards[0]->m_objRect.h) * 6;
-		m_objRect.y -= 6;
+		m_objRect.y -= 1;
 	}
 
 }

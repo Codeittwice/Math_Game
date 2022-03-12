@@ -40,8 +40,8 @@ void QBoard::init(string configFile)
 	m_objTexture = LoadTexture(m_qBoardrImg, world.m_main_renderer);
 	m_tryAgainTexture = LoadTexture(m_tryAgainImg, world.m_main_renderer);
 
-	m_objRect.x = world.m_SCREEN_WIDTH / 2 - m_objRect.w  * 2 / 3;
-	m_objRect.y = - m_objRect.h;// world.m_SCREEN_HEIGHT / 2 - m_objRect.h / 2;
+	m_objRect.x = - m_objRect.w;
+	m_objRect.y = 0;// world.m_SCREEN_HEIGHT / 2 - m_objRect.h / 2;
 
 	isAnswered = false;
 	shouldAppear = false;
@@ -169,13 +169,13 @@ void QBoard::update()
 		if (shouldAppear)
 		{
 			//D("APP");
-			if (m_objRect.y <= 0) appear();
+			if (m_objRect.x <= 0 ) appear();
 			else shouldAppear = false;
 		}
 		if (shouldDisappear)
 		{
 			//D("DAPP");
-			if (m_objRect.y >= -m_objRect.h) disappear();
+			if (m_objRect.x <= 1920) disappear();
 			else shouldDisappear = false;
 		}
 		if (sizeChangeCounter % 10 < 5)
@@ -220,7 +220,7 @@ void QBoard::draw()
 		if (gotTheQuestionRight)
 		{
 			Vector2 v;
-			v.x = m_objRect.x + m_objRect.w / 2 - 400;
+			v.x = m_objRect.x + m_objRect.w / 2 - 600;
 			v.y = m_objRect.y + m_objRect.h / 2 - 300;
 			int font = 200;
 			write(m_qa.question, v, world.m_main_renderer, font);
@@ -235,7 +235,7 @@ void QBoard::draw()
 		{
 			if (errMsgShouldStay)
 			{
-				m_tryAgainRect.x = m_objRect.x + m_objRect.w / 2 - 400;
+				m_tryAgainRect.x = m_objRect.x + m_objRect.w / 2 - 600;
 				m_tryAgainRect.y = m_objRect.y + m_objRect.h / 2 - 350;
 
 				SDL_RenderCopy(world.m_main_renderer, m_tryAgainTexture, NULL, &m_tryAgainRect);
@@ -249,11 +249,11 @@ void QBoard::draw()
 
 void QBoard::appear()
 {
-	m_objRect.y += 30;
+	m_objRect.x += 50;
 }
 
 void QBoard::disappear()
 {
 	
-	m_objRect.y -= 30;
+	m_objRect.x += 50;
 }
