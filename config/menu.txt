@@ -1,20 +1,33 @@
 Image: Menu_Background.bmp
+
 StartImage: Choose_Game_Button.bmp
-StartX: 140
-StartY: 40
+Start: 163 31
+
 ExitImage: Exit_Button.bmp
-ExitX: 70
-ExitY: 20
+Exit: 20 20
+
 LogoImage: Mars_Menu_Logo.bmp
-LogoW: 250
-LogoH: 125
+Logo: 900 450
+
 STARTImage: Start_Button.bmp
 START: 140 40
+
 ADDImage: Addition_Button.bmp
-ADD: 140 40
+ADD: 183 41
+
 SUBTImage: Subtraction_Button.bmp
-SUBT: 140 40
+SUBT: 183 41
+
 MULTImage: Multiplication_Button.bmp
-MULT: 140 40
+MULT: 183 41
+
 DIVImage: Division_Button.bmp
-DIV: 140 40
+DIV: 183 41
+
+BackImage: Back_Button.bmp
+Back: 20 20
+
+FramerImage: Framer.bmp
+Framer: 250 125
+
+Check: Button_Check.bmp

@@ -58,7 +58,7 @@ void GameManager::init()
     SDL_SetTextureAlphaMod(m_creditsTexture, alpha_cr);
 
     m_configManager.init("configManager.txt");
-    m_soundManager.init("soundManager.txt");
+    //m_soundManager.init("soundManager.txt");
     Vector2 screenCenter;
     screenCenter.x = world.m_SCREEN_WIDTH;
     screenCenter.y = world.m_SCREEN_HEIGHT;

@@ -37,11 +37,26 @@ public:
     string m_divisionImg;
     string m_startButtonImg;
 
+    string m_CheckImg;
+
+    SDL_Texture* m_CheckTexture;
+
     Button m_additionButton;
     Button m_subtractionButton;
     Button m_multiplicationButton;
     Button m_divisionButton;
     Button m_startButton;
+
+    string m_backButtonImg;
+    Button m_backButton;
+
+    string m_framerImg;
+    Button m_framerButton;
+
+    bool checkA;
+    bool checkS;
+    bool checkM;
+    bool checkD;
 
     time_t lastClick;
     time_t timeSinceLastClick;

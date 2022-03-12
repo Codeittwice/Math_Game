@@ -137,11 +137,13 @@ void QBoard::answerQuestion()
 		}
 		else
 		{
-			timerErr = time(NULL); 
-			world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Wrong_Answer_str);
-			gotTheQuestionRight = false;
-			world.m_gameManager.m_inputManager.stopTextInput();
-			world.m_gameManager.m_gameboard.player->m_state = ANGRY;
+			if (gotTheQuestionRight) {
+				timerErr = time(NULL);
+				world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Wrong_Answer_str);
+				gotTheQuestionRight = false;
+				world.m_gameManager.m_inputManager.stopTextInput();
+				world.m_gameManager.m_gameboard.player->m_state = ANGRY;
+			}
 			//world.m_gameManager.m_inputManager.resetText();
 
 

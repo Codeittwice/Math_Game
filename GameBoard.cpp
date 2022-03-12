@@ -167,7 +167,36 @@ vector<BoardTile*> GameBoard::createPath()
 		QBoard* qb = new QBoard(world.m_gameManager.m_configManager.m_qBoard);
 		qb->generateQuestion();
 		m_qBoards.push_back(qb);
-		int r = rand() % 20;
+		/*switch (rand() % 4)
+		{
+		case 0:
+			if (i + 1 < m_boardCap)
+			{
+				i++;
+				break;
+			}
+		case 1:
+			if (j + 1 < m_boardCap)
+			{
+				j++;
+				break;
+			}
+		case 2:
+			if (j - 1 >= 0)
+			{
+				j--;
+				break;
+			}
+		case 3:
+			if (i - 1 >= 0)
+			{
+				i--;
+				break;
+			}
+		}*/
+		
+		int r = rand() % 4;
+		
 		if (r <= 10)
 		{
 			
@@ -189,21 +218,15 @@ vector<BoardTile*> GameBoard::createPath()
 				i++;
 			}
 		}
-	}
 
-	for (int i = 0; i < m_qBoards.size(); i++)
-	{
-		for (int j = 0; j < m_qBoards.size(); j++)
-		{
-			if (i != j)
-			{
-				if (m_qBoards[j]->m_qa.question == m_qBoards[i]->m_qa.question)
-				{
-					m_qBoards[j]->generateQuestion();
-				}
-			}
-		}
 	}
+	/*if (path.size() != 10)
+	{
+		path = createPath();
+
+	}*/
+
+	
 	/*for (int i = 0; i < m_qBoards.size(); i++)
 	{
 		D(m_qBoards[i]->m_qa.question);
