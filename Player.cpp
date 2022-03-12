@@ -14,7 +14,7 @@ Player::~Player()
 void Player::init(string configFile)
 {
 	configFile = "config\\" + configFile;
-	fstream stream;
+	ifstream stream;
 	string tmp;
 	stream.open(configFile);
 

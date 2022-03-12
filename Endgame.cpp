@@ -15,7 +15,7 @@ Endgame::~Endgame()
 }
 
 void Endgame::init(string config) {
-    fstream stream;
+    ifstream stream;
     string tmp;
     stream.open("config\\" + config);
     stream >> tmp >> frameCount;

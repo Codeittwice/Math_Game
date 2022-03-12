@@ -16,7 +16,7 @@ void GameBoard::init(string configFile)
 {
 	configFile = "config\\" + configFile;
 
-	fstream stream;
+	ifstream stream;
 	string tmp;
 	stream.open(configFile);
 
@@ -29,6 +29,7 @@ void GameBoard::init(string configFile)
 
 	p = 0;
 	stream.close();
+
 	m_objTexture = LoadTexture(m_boardImg, world.m_main_renderer);
 	m_overTexture = LoadTexture(tmp, world.m_main_renderer);
 
@@ -101,6 +102,7 @@ void GameBoard::draw()
 
 void GameBoard::initSession()
 {
+	D("start of init session");
 	for (int i = 0; i < m_boardCap; i++)
 	{
 		vector<BoardTile*> row;
@@ -118,16 +120,20 @@ void GameBoard::initSession()
 			row.push_back(tile);
 		}
 		m_tileMap.push_back(row);
+		D(row.size());
 	}
 
 
 	newPath = createPath();
+	D("after path");
 	m_currentTile = newPath[p];
 	m_qBoards[p]->isActive = true;
 
 
 	m_qBoards[p]->shouldAppear = true;
+	D("before player");
 	addPlayer();
+	D("after player");
 	
 	
 }
@@ -143,6 +149,7 @@ void GameBoard::deleteSession()
 
 vector<BoardTile*> GameBoard::createPath()
 {
+	D("start of path create");
 	vector<BoardTile*> path;
 	int i = 0, j = 0;
 	srand(time(NULL));
@@ -254,11 +261,15 @@ vector<BoardTile*> GameBoard::createPath()
 
 void GameBoard::addPlayer()
 {
+	D("init player");
 	player = new Player();
 	player->init("player1.txt");
 
+	D("player coordinates before");
+
 	player->setInitialMapCoordinates(m_tileMap[0][0]->map_coor.i, m_tileMap[0][0]->map_coor.i);
 	player->setInitialCoordinates(m_tileMap[0][0]->m_objRect.x, m_tileMap[0][0]->m_objRect.y);
+	D("player coordinates after");
 
 	newPath[p]->highlight();
 }

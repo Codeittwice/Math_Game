@@ -225,9 +225,10 @@ void Menu::update()
                 if (world.m_gameManager.m_availableOperators.add || world.m_gameManager.m_availableOperators.subtract ||
                     world.m_gameManager.m_availableOperators.multiply || world.m_gameManager.m_availableOperators.divide)
                 {
-                    world.m_gameManager.m_gameState = INIT_GAME;
+                    D("BEFORE ENTERING INIT_GAME");
                     world.m_gameManager.loadtimer = time(NULL);
                     choosingGame = false;
+                    world.m_gameManager.m_gameState = INIT_GAME;
                 }
             }
 

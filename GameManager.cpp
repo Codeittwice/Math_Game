@@ -39,16 +39,14 @@ void GameManager::init()
 
     SDL_StartTextInput();
 
-    if (file.is_open())
-    {
-        string tmp;
+    
+    string tmp;
 
-        file >> tmp >> m_backgroundImg;
-        file >> tmp >> m_creditsImg;
-        file >> tmp >> m_loadingImg;
+    file >> tmp >> m_backgroundImg;
+    file >> tmp >> m_creditsImg;
+    file >> tmp >> m_loadingImg;
 
-        file.close();
-    }
+    file.close();
 
 
     m_backgroundTexture = LoadTexture(m_backgroundImg, m_renderer);
@@ -58,7 +56,7 @@ void GameManager::init()
     SDL_SetTextureAlphaMod(m_creditsTexture, alpha_cr);
 
     m_configManager.init("configManager.txt");
-    //m_soundManager.init("soundManager.txt");
+    m_soundManager.init("soundManager.txt");
     Vector2 screenCenter;
     screenCenter.x = world.m_SCREEN_WIDTH;
     screenCenter.y = world.m_SCREEN_HEIGHT;
@@ -66,7 +64,7 @@ void GameManager::init()
 
     m_menu.load("menu.txt");
     m_endgame.init("endgame.txt");
-    m_gameState = MENU;
+    m_gameState = CREDITS;
     
 }
 
@@ -110,18 +108,24 @@ void GameManager::update()
     {
         if (time(NULL) - loadtimer == 0)
         {
+            D("STOP SOUND");
             world.m_gameManager.m_soundManager.stop(world.m_gameManager.m_soundManager.Menu_Music_str);
+            D("INIT");
             m_gameboard.init("gameboard.txt");
+            D("INIT SESH");
             m_gameboard.initSession();
-
+            D("PLAYER PLACEMENT");
             m_gameboard.player->m_objRect.x = world.m_SCREEN_WIDTH / 2 - m_gameboard.player->m_objRect.w / 2;
             m_gameboard.player->m_objRect.y = world.m_SCREEN_HEIGHT / 2 - m_gameboard.player->m_objRect.h / 2;
-
+            D("AFTER PLACEMENT");
         }
+        D("UPDATE bef");
         m_gameboard.player->update();
+        D("UPDATE aft");
 
         if (time(NULL) - loadtimer >= 5) 
         {
+            
             m_gameboard.player->setInitialCoordinates(m_gameboard.m_tileMap[0][0]->m_objRect.x, m_gameboard.m_tileMap[0][0]->m_objRect.y);
             world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Background_Music_str);
 

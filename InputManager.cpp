@@ -37,7 +37,7 @@ void InputManager::init(string path, Vector2 screenCenter)
 {
     path = "config\\" + path;
 
-    fstream stream;
+    ifstream stream;
     string tmp;
 
     stream.open(path);
