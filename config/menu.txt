@@ -31,3 +31,8 @@ FramerImage: Framer.bmp
 Framer: 250 125
 
 Check: Button_Check.bmp
+
+InfoButtonImage: Info_Button.bmp
+Info: 20 20
+
+InfoImage: Menu_Info.bmp

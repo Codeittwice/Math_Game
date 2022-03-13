@@ -11,7 +11,7 @@ Menu::Menu()
     //ctor
     m_sizeMultiplier = 4.5;
     ///CHANGED LATER ON IN THE INITIALISATION
-    choosingGame = false;
+    choosingGame = false; 
 }
 
 Menu::~Menu()
@@ -62,8 +62,15 @@ void Menu::load(string config)
 
     stream >> tmp >> m_CheckImg;
 
+    stream >> tmp >> m_infoButtonImg;
+    stream >> tmp >> m_infoButton.objectRect.w >> m_infoButton.objectRect.h;
+
+    stream >> tmp >> m_infoImg;
+
+
     stream.close();
 
+    showInfo = false;
     ///Apply multiplier to change images to fit the screen
 
     m_exitRect.w *= m_sizeMultiplier;
@@ -86,7 +93,7 @@ void Menu::load(string config)
     m_exitRect.y = 0;
 
     m_logoRect.x = (1920 - m_logoRect.w) / 2;
-    m_logoRect.y = 100;
+    m_logoRect.y = 50;
 
 
     m_startStartRect = m_startRect;
@@ -95,12 +102,20 @@ void Menu::load(string config)
     //////////////BUTTONS/////////////////////
 
 
-    m_sizeMultiplier = 4;
+    m_sizeMultiplier = 4.0;
+
+    ///------------INFO BUTTON-------------------///
+    m_infoButton.objectRect.w *= m_sizeMultiplier;
+    m_infoButton.objectRect.h *= m_sizeMultiplier;
+    m_infoButton.objectRect.x = 5;
+    m_infoButton.objectRect.y = m_exitRect.h + 20;
+    m_infoButton.startRect = m_infoButton.objectRect;
+
     ///------------BACK BUTTON-------------------///
     m_backButton.objectRect.w *= m_sizeMultiplier;
     m_backButton.objectRect.h *= m_sizeMultiplier;
     m_backButton.objectRect.x = 5;
-    m_backButton.objectRect.y = m_exitRect.h + 20;
+    m_backButton.objectRect.y = 2 * (m_exitRect.h + 20);
     m_backButton.startRect = m_backButton.objectRect;
 
     m_sizeMultiplier = 2.0;
@@ -169,6 +184,9 @@ void Menu::load(string config)
 
     m_backButton.objTexture = LoadTexture(m_backButtonImg, world.m_main_renderer);
     m_framerButton.objTexture = LoadTexture(m_framerImg, world.m_main_renderer);
+    m_infoButton.objTexture = LoadTexture(m_infoButtonImg, world.m_main_renderer);
+
+    m_infoTexture = LoadTexture(m_infoImg, world.m_main_renderer);
 
 
     m_CheckTexture = LoadTexture(m_CheckImg, world.m_main_renderer);
@@ -205,110 +223,132 @@ void Menu::update()
 
             world.m_gameManager.m_gameState = EXIT;
         }
-        if (!choosingGame)
-        {
-            
 
-            if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_startRect)) {
-                world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
-
-                choosingGame = true;
-
-            }
         
-        }
-        else
-        {
-            if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_startButton.objectRect))
-            {
+
+        if (!showInfo) {
+
+            if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_infoButton.objectRect)) {
                 world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
-                if (world.m_gameManager.m_availableOperators.add || world.m_gameManager.m_availableOperators.subtract ||
-                    world.m_gameManager.m_availableOperators.multiply || world.m_gameManager.m_availableOperators.divide)
+
+                showInfo = true;
+            }
+
+            if (!choosingGame)
+            {
+
+
+                if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_startRect)) {
+                    world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
+
+                    choosingGame = true;
+
+                }
+
+
+            }
+            else
+            {
+                if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_startButton.objectRect))
                 {
-                    D("BEFORE ENTERING INIT_GAME");
-                    world.m_gameManager.loadtimer = time(NULL);
+                    world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
+                    if (world.m_gameManager.m_availableOperators.add || world.m_gameManager.m_availableOperators.subtract ||
+                        world.m_gameManager.m_availableOperators.multiply || world.m_gameManager.m_availableOperators.divide)
+                    {
+                        world.m_gameManager.loadtimer = time(NULL);
+                        choosingGame = false;
+                        world.m_gameManager.m_gameState = INIT_GAME;
+                    }
+                }
+
+                if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_additionButton.objectRect))
+                {
+                    world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
+
+                    if (!world.m_gameManager.m_availableOperators.add)
+                    {
+                        world.m_gameManager.m_availableOperators.add = true;
+                        checkA = true;
+                        //SDL_SetTextureColorMod(m_additionButton.objTexture, 250, 250, 250);
+                    }
+                    else {
+                        world.m_gameManager.m_availableOperators.add = false;
+                        checkA = false;
+                        //SDL_SetTextureColorMod(m_additionButton.objTexture, 100, 100, 100);
+                    }
+
+                }
+
+                if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_subtractionButton.objectRect))
+                {
+                    world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
+
+                    if (!world.m_gameManager.m_availableOperators.subtract)
+                    {
+                        world.m_gameManager.m_availableOperators.subtract = true;
+                        checkS = true;
+                        //SDL_SetTextureColorMod(m_subtractionButton.objTexture, 250, 250, 250);
+                    }
+                    else {
+                        world.m_gameManager.m_availableOperators.subtract = false;
+                        checkS = false;
+                        //SDL_SetTextureColorMod(m_subtractionButton.objTexture, 100, 100, 100);
+                    }
+                }
+
+                if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_multiplicationButton.objectRect))
+                {
+                    world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
+
+                    if (!world.m_gameManager.m_availableOperators.multiply)
+                    {
+                        world.m_gameManager.m_availableOperators.multiply = true;
+                        checkM = true;
+                        //SDL_SetTextureColorMod(m_multiplicationButton.objTexture, 250, 250, 250);
+                    }
+                    else {
+                        world.m_gameManager.m_availableOperators.multiply = false;
+                        checkM = false;
+                        //SDL_SetTextureColorMod(m_multiplicationButton.objTexture, 100, 100, 100);
+                    }
+                }
+
+                if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_divisionButton.objectRect))
+                {
+                    world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
+
+                    if (!world.m_gameManager.m_availableOperators.divide)
+                    {
+                        world.m_gameManager.m_availableOperators.divide = true;
+                        checkD = true;
+                        //SDL_SetTextureColorMod(m_divisionButton.objTexture, 250, 250, 250);
+                    }
+                    else {
+                        world.m_gameManager.m_availableOperators.divide = false;
+                        checkD = false;
+                        //SDL_SetTextureColorMod(m_divisionButton.objTexture, 100, 100, 100);
+                    }
+                }
+
+                if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_backButton.objectRect)) {
+
+                    world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
+
                     choosingGame = false;
-                    world.m_gameManager.m_gameState = INIT_GAME;
-                }
-            }
-
-            if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_additionButton.objectRect))
-            {
-                world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
-
-                if (!world.m_gameManager.m_availableOperators.add)
-                {
-                    world.m_gameManager.m_availableOperators.add = true;
-                    checkA = true;
-                    //SDL_SetTextureColorMod(m_additionButton.objTexture, 250, 250, 250);
-                }
-                else {
-                    world.m_gameManager.m_availableOperators.add = false;
-                    checkA = false;
-                    //SDL_SetTextureColorMod(m_additionButton.objTexture, 100, 100, 100);
                 }
 
             }
-
-            if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_subtractionButton.objectRect))
-            {
-                world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
-
-                if (!world.m_gameManager.m_availableOperators.subtract)
-                {
-                    world.m_gameManager.m_availableOperators.subtract = true;
-                    checkS = true;
-                    //SDL_SetTextureColorMod(m_subtractionButton.objTexture, 250, 250, 250);
-                }
-                else {
-                    world.m_gameManager.m_availableOperators.subtract = false;
-                    checkS = false;
-                    //SDL_SetTextureColorMod(m_subtractionButton.objTexture, 100, 100, 100);
-                }
-            }
-
-            if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_multiplicationButton.objectRect))
-            {
-                world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
-
-                if (!world.m_gameManager.m_availableOperators.multiply)
-                {
-                    world.m_gameManager.m_availableOperators.multiply = true; 
-                    checkM = true;
-                    //SDL_SetTextureColorMod(m_multiplicationButton.objTexture, 250, 250, 250);
-                }
-                else {
-                    world.m_gameManager.m_availableOperators.multiply = false;
-                    checkM = false;
-                    //SDL_SetTextureColorMod(m_multiplicationButton.objTexture, 100, 100, 100);
-                }
-            }
-
-            if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_divisionButton.objectRect))
-            {
-                world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
-
-                if (!world.m_gameManager.m_availableOperators.divide)
-                {
-                    world.m_gameManager.m_availableOperators.divide = true;
-                    checkD = true;
-                    //SDL_SetTextureColorMod(m_divisionButton.objTexture, 250, 250, 250);
-                }
-                else {
-                    world.m_gameManager.m_availableOperators.divide = false;
-                    checkD = false;
-                    //SDL_SetTextureColorMod(m_divisionButton.objTexture, 100, 100, 100);
-                }
-            }
-            
+        }
+        else if (showInfo)
+        {
             if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_backButton.objectRect)) {
 
                 world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
 
-                choosingGame = false;
+                showInfo = false;
             }
-
         }
+        
     }
 
     EnlargeButtons(world.m_gameManager.m_inputManager.m_mouseCoor, m_startRect, m_startStartRect);
@@ -323,6 +363,7 @@ void Menu::update()
     EnlargeButtons(world.m_gameManager.m_inputManager.m_mouseCoor, m_divisionButton.objectRect, m_divisionButton.startRect);
 
     EnlargeButtons(world.m_gameManager.m_inputManager.m_mouseCoor, m_backButton.objectRect, m_backButton.startRect);
+    EnlargeButtons(world.m_gameManager.m_inputManager.m_mouseCoor, m_infoButton.objectRect, m_infoButton.startRect);
 
 }
 
@@ -332,29 +373,44 @@ void Menu::draw()
     SDL_RenderCopy(world.m_main_renderer, m_objectTexture, NULL, NULL);
     SDL_RenderCopy(world.m_main_renderer, m_exitTexture, NULL, &m_exitRect);
 
-    if (!choosingGame)
+    SDL_RenderCopy(world.m_main_renderer, m_infoButton.objTexture, NULL, &m_infoButton.objectRect);
+
+    if (!showInfo)
     {
-        SDL_RenderCopy(world.m_main_renderer, m_startTexture, NULL, &m_startRect);
-        SDL_RenderCopy(world.m_main_renderer, m_logoTexture, NULL, &m_logoRect);
+        if (!choosingGame)
+        {
+            SDL_RenderCopy(world.m_main_renderer, m_startTexture, NULL, &m_startRect);
+            SDL_RenderCopy(world.m_main_renderer, m_logoTexture, NULL, &m_logoRect);
+
+        }
+        else
+        {
+
+            SDL_RenderCopy(world.m_main_renderer, m_backButton.objTexture, NULL, &m_backButton.objectRect);
+
+            SDL_RenderCopy(world.m_main_renderer, m_infoButton.objTexture, NULL, &m_infoButton.objectRect);
+
+            SDL_RenderCopy(world.m_main_renderer, m_framerButton.objTexture, NULL, &m_framerButton.objectRect);
+
+            SDL_RenderCopy(world.m_main_renderer, m_startButton.objTexture, NULL, &m_startButton.objectRect);
+
+            SDL_RenderCopy(world.m_main_renderer, m_additionButton.objTexture, NULL, &m_additionButton.objectRect);
+            SDL_RenderCopy(world.m_main_renderer, m_subtractionButton.objTexture, NULL, &m_subtractionButton.objectRect);
+            SDL_RenderCopy(world.m_main_renderer, m_multiplicationButton.objTexture, NULL, &m_multiplicationButton.objectRect);
+            SDL_RenderCopy(world.m_main_renderer, m_divisionButton.objTexture, NULL, &m_divisionButton.objectRect);
+
+            if (checkA)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_additionButton.objectRect);
+            if (checkS)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_subtractionButton.objectRect);
+            if (checkM)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_multiplicationButton.objectRect);
+            if (checkD)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_divisionButton.objectRect);
+        }
     }
-    else
+    else if (showInfo)
     {
 
+        SDL_RenderCopy(world.m_main_renderer, m_infoTexture, NULL, NULL);
         SDL_RenderCopy(world.m_main_renderer, m_backButton.objTexture, NULL, &m_backButton.objectRect);
 
-        SDL_RenderCopy(world.m_main_renderer, m_framerButton.objTexture, NULL, &m_framerButton.objectRect);
-
-        SDL_RenderCopy(world.m_main_renderer, m_startButton.objTexture, NULL, &m_startButton.objectRect);
-
-        SDL_RenderCopy(world.m_main_renderer, m_additionButton.objTexture, NULL, &m_additionButton.objectRect);
-        SDL_RenderCopy(world.m_main_renderer, m_subtractionButton.objTexture, NULL, &m_subtractionButton.objectRect);
-        SDL_RenderCopy(world.m_main_renderer, m_multiplicationButton.objTexture, NULL, &m_multiplicationButton.objectRect);
-        SDL_RenderCopy(world.m_main_renderer, m_divisionButton.objTexture, NULL, &m_divisionButton.objectRect);
-
-        if (checkA)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_additionButton.objectRect);
-        if (checkS)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_subtractionButton.objectRect);
-        if (checkM)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_multiplicationButton.objectRect);
-        if (checkD)  SDL_RenderCopy(world.m_main_renderer, m_CheckTexture, NULL, &m_divisionButton.objectRect);
     }
 
 }

@@ -25,6 +25,7 @@ void Endgame::init(string config) {
         m_images.push_back("EndGame\\" + tmp);
     }
     stream >> tmp >> m_poceedImage >> m_proceed_button.w >> m_proceed_button.h;
+    stream >> tmp >> m_gongratulationsImg;
 
     stream.close();
     m_proceed_button.x = (1920 - m_proceed_button.w) / 2;
@@ -36,23 +37,25 @@ void Endgame::init(string config) {
     }
 
     m_proceed_texture = LoadTexture(m_poceedImage, world.m_main_renderer);
+    m_gongratulationsTexture = LoadTexture(m_gongratulationsImg, world.m_main_renderer);
     frameCounter = 0;
 }
 
 void Endgame::update() 
 {
-    //D("UPDATE");
     if (world.m_gameManager.m_inputManager.m_mouseIsClicked) {
         if (MouseIsInRect(world.m_gameManager.m_inputManager.m_mouseCoor, m_proceed_button)) {
 
+            world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Button_Click_str);
+            world.m_gameManager.m_soundManager.stop(world.m_gameManager.m_soundManager.EndGame_str);
             world.m_gameManager.m_gameState = MENU;
 
-            //world.m_gameManager.m_gameboard.deleteSession();
+            world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Menu_Music_str);
+
         }
     }
     EnlargeButtons(world.m_gameManager.m_inputManager.m_mouseCoor,m_proceed_button,m_start_proceed_button);
 
-    //D(frameCounter/3);
     if (frameCounter < 3 * frameCount - 1)  frameCounter++;
     else
         frameCounter = 0;
@@ -65,4 +68,7 @@ void Endgame::draw()
     SDL_RenderCopy(world.m_main_renderer, m_textures[frameCounter/3], NULL, NULL);
 
     SDL_RenderCopy(world.m_main_renderer, m_proceed_texture, NULL, &m_proceed_button);
+
+    SDL_RenderCopy(world.m_main_renderer, m_gongratulationsTexture, NULL, NULL);
+
 }

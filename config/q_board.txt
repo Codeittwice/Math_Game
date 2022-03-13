@@ -1,4 +1,5 @@
 img: QuestionBoard.bmp
 wh: 1920 1080
-img: TryAgain.bmp
-wh: 900 300
+img: TryAgain1.bmp
+img: TryAgain2.bmp
+wh: 600 200

@@ -36,6 +36,7 @@ public:
     string m_multiplicationImg;
     string m_divisionImg;
     string m_startButtonImg;
+    string m_infoButtonImg;
 
     string m_CheckImg;
 
@@ -46,12 +47,18 @@ public:
     Button m_multiplicationButton;
     Button m_divisionButton;
     Button m_startButton;
+    Button m_infoButton;
+
+    bool showInfo;
 
     string m_backButtonImg;
     Button m_backButton;
 
     string m_framerImg;
     Button m_framerButton;
+
+    string m_infoImg;
+    SDL_Texture* m_infoTexture;
 
     bool checkA;
     bool checkS;

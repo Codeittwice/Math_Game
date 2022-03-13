@@ -40,7 +40,8 @@ enum GAME_STATE
     ENDGAME = 5, 
     TITLESCREEN = 6 ,
     CAVES = 7,
-    INIT_GAME = 8
+    INIT_GAME = 8,
+    INFO = 9
 }; ///< Game state enumerator defining game states to use
 
 enum PLAYER_STATE

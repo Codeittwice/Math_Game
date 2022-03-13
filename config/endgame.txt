@@ -19,3 +19,4 @@ EndGame_0016.bmp
 EndGame_0017.bmp
 EndGame_0018.bmp
 button_w_h: Proceed_Button.bmp 420 120
+Text: Congratulations.bmp

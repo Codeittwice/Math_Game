@@ -26,8 +26,10 @@ public:
 	SDL_Texture* m_objTexture;
 
 	string m_tryAgainImg;
+	string m_tryAgain2Img;
 	SDL_Rect m_tryAgainRect;
 	SDL_Texture* m_tryAgainTexture;
+	SDL_Texture* m_tryAgain2Texture;
 
 
 	bool isAnswered;
@@ -45,7 +47,9 @@ public:
 	bool shouldAppear;
 	bool shouldDisappear;
 	bool errMsgShouldStay;
+	bool happyAnim;
 	time_t timerErr;
+	time_t timerSuc;
 
 	void init(string configFile);
 	void generateQuestion();

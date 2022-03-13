@@ -129,8 +129,8 @@ void write(string text, Vector2 coor, SDL_Renderer* renderer, int FONT_SIZE)
         exit(EXIT_FAILURE);
     }
 
-    fcolor.r = 0;
-    fcolor.g = 0;
+    fcolor.r = 255;
+    fcolor.g = 174;
     fcolor.b = 0;
     fcolor.a = 255;
     const char* t = text.c_str();

@@ -64,7 +64,7 @@ void GameManager::init()
 
     m_menu.load("menu.txt");
     m_endgame.init("endgame.txt");
-    m_gameState = CREDITS;
+    m_gameState = MENU;
     
 }
 
@@ -98,6 +98,8 @@ void GameManager::update()
         {
             m_soundManager.stop(m_soundManager.Credits_str);
             m_gameState = MENU;
+
+            world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.Menu_Music_str);
         }
     }
     if (m_gameState == MENU)
@@ -108,20 +110,14 @@ void GameManager::update()
     {
         if (time(NULL) - loadtimer == 0)
         {
-            D("STOP SOUND");
             world.m_gameManager.m_soundManager.stop(world.m_gameManager.m_soundManager.Menu_Music_str);
-            D("INIT");
             m_gameboard.init("gameboard.txt");
-            D("INIT SESH");
             m_gameboard.initSession();
-            D("PLAYER PLACEMENT");
+
             m_gameboard.player->m_objRect.x = world.m_SCREEN_WIDTH / 2 - m_gameboard.player->m_objRect.w / 2;
             m_gameboard.player->m_objRect.y = world.m_SCREEN_HEIGHT / 2 - m_gameboard.player->m_objRect.h / 2;
-            D("AFTER PLACEMENT");
         }
-        D("UPDATE bef");
         m_gameboard.player->update();
-        D("UPDATE aft");
 
         if (time(NULL) - loadtimer >= 5) 
         {
@@ -145,6 +141,7 @@ void GameManager::update()
     
     if (m_gameState == ENDGAME)
     {
+        //world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.EndGame_str); In GameBoard::update()
         m_endgame.update();
         m_gameboard.deleteSession();
     }

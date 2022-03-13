@@ -16,6 +16,9 @@ class Endgame
         vector<string> m_images;
         string m_poceedImage;
 
+        string m_gongratulationsImg;
+        SDL_Texture* m_gongratulationsTexture;
+
         vector<SDL_Texture*> m_textures;
         SDL_Texture* m_proceed_texture;
 

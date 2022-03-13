@@ -55,13 +55,14 @@ void GameBoard::update()
 	}
 	else {
 
-		player->moveTo(2000, newPath[newPath.size() - 1]->m_objRect.y - newPath[newPath.size() - 1]->m_objRect.h);
+		player->moveTo(2000, newPath[newPath.size() - 1]->m_objRect.y - newPath[newPath.size() - 1]->m_objRect.h - 50);
 		player->m_state = MOVING;
-		if (player->m_objRect.x >= 1920 && player->m_objRect.y >= 540)
+		if (player->m_objRect.x >= 1920)
 		{
 			world.m_gameManager.m_soundManager.stop(world.m_gameManager.m_soundManager.Background_Music_str);
 
 			world.m_gameManager.m_gameState = ENDGAME;
+			world.m_gameManager.m_soundManager.play(world.m_gameManager.m_soundManager.EndGame_str);
 		}
 	}
 
@@ -102,7 +103,6 @@ void GameBoard::draw()
 
 void GameBoard::initSession()
 {
-	D("start of init session");
 	for (int i = 0; i < m_boardCap; i++)
 	{
 		vector<BoardTile*> row;
@@ -120,20 +120,16 @@ void GameBoard::initSession()
 			row.push_back(tile);
 		}
 		m_tileMap.push_back(row);
-		D(row.size());
 	}
 
 
 	newPath = createPath();
-	D("after path");
 	m_currentTile = newPath[p];
 	m_qBoards[p]->isActive = true;
 
 
 	m_qBoards[p]->shouldAppear = true;
-	D("before player");
 	addPlayer();
-	D("after player");
 	
 	
 }
@@ -149,7 +145,6 @@ void GameBoard::deleteSession()
 
 vector<BoardTile*> GameBoard::createPath()
 {
-	D("start of path create");
 	vector<BoardTile*> path;
 	int i = 0, j = 0;
 	srand(time(NULL));
@@ -252,8 +247,6 @@ vector<BoardTile*> GameBoard::createPath()
 		D(m_qBoards[i]->m_qa.question);
 	}*/
 
-	D(path.size());
-	D(m_qBoards.size());
 	return path;
 
 
@@ -261,15 +254,11 @@ vector<BoardTile*> GameBoard::createPath()
 
 void GameBoard::addPlayer()
 {
-	D("init player");
 	player = new Player();
 	player->init("player1.txt");
 
-	D("player coordinates before");
-
 	player->setInitialMapCoordinates(m_tileMap[0][0]->map_coor.i, m_tileMap[0][0]->map_coor.i);
 	player->setInitialCoordinates(m_tileMap[0][0]->m_objRect.x, m_tileMap[0][0]->m_objRect.y);
-	D("player coordinates after");
 
 	newPath[p]->highlight();
 }
@@ -287,6 +276,8 @@ void GameBoard::movePlayer()
 			{
 				if (p < newPath.size() - 1) {
 					p++;
+					world.m_gameManager.m_inputManager.stopTextInput();
+					world.m_gameManager.m_inputManager.resetText();
 				}
 				else {
 					//p = 0;
